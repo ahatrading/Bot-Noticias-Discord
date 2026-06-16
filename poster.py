@@ -46,8 +46,12 @@ def strip_html(raw: str) -> str:
     text = parser.get_text()
     # Colapsa espaços múltiplos
     text = re.sub(r"\s+", " ", text).strip()
-    # Remove boilerplate tipo "O artigo X apareceu primeiro em Y."
+    # Remove boilerplate PT: "O artigo X apareceu primeiro em Y."
     text = re.sub(r"\s*O artigo .+? apareceu primeiro em .+?\.", "", text, flags=re.DOTALL).strip()
+    # Remove boilerplate EN: "The post X appeared first on Y."
+    text = re.sub(r"\s*The post .+? appeared first on .+?\.", "", text, flags=re.DOTALL).strip()
+    # Remove boilerplate BeInCrypto PT: "X foi visto pela primeira vez em Y."
+    text = re.sub(r"\s*\S.+? foi visto pela primeira vez em .+?\.", "", text, flags=re.DOTALL).strip()
     return text
 
 
