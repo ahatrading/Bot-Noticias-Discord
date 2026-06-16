@@ -1,0 +1,41 @@
+name: Bot Notícias Discord
+
+on:
+  schedule:
+    # Horários em UTC (BRT = UTC-3)
+    - cron: '0 12 * * *'  # 09:00 BRT
+    - cron: '0 17 * * *'  # 14:00 BRT
+    - cron: '0 21 * * *'  # 18:00 BRT
+    - cron: '0 0 * * *'   # 21:00 BRT
+  workflow_dispatch: # permite rodar manualmente também
+
+permissions:
+  contents: write # necessário para salvar posted_links.json
+
+jobs:
+  postar-noticias:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: pip install feedparser requests
+
+      - name: Postar notícias
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python poster.py
+
+      - name: Salvar links postados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posted_links.json
+          git diff --staged --quiet || git commit -m "chore: atualiza links postados [skip ci]"
+          git push
