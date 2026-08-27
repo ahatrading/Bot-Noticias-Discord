@@ -3,10 +3,10 @@ name: Bot Notícias Discord
 on:
   schedule:
     # Horários em UTC (BRT = UTC-3)
-    - cron: '0 12 * * *'  # 09:00 BRT
-    - cron: '0 17 * * *'  # 14:00 BRT
-    - cron: '0 21 * * *'  # 18:00 BRT
-    - cron: '0 0 * * *'   # 21:00 BRT
+    - cron: '7 12 * * *'  # 09:07 BRT
+    - cron: '7 17 * * *'  # 14:07 BRT
+    - cron: '7 21 * * *'  # 18:07 BRT
+    - cron: '7 0 * * *'   # 21:07 BRT
   workflow_dispatch: # permite rodar manualmente também
 
 permissions:
